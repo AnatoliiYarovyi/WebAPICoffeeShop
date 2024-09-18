@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Register the CoffeeShopContext in the dependency container
 builder.Services.AddSingleton<CoffeeShopContext>();
 
 var app = builder.Build();
