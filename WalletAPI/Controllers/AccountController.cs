@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using WalletAPI.DataAccess.Entities;
+using WalletAPI.BusinessLogic.Contracts;
+using WalletAPI.BusinessLogic.Dtos;
+using WalletAPI.Models.Accounts;
 
 namespace WalletAPI.Controllers;
 
@@ -8,97 +10,102 @@ namespace WalletAPI.Controllers;
 public class AccountController : ControllerBase
 {
     private readonly ILogger<TransactionsController> _logger;
-    private readonly WalletContext CONTEXT = new WalletContext();
+    private readonly IAccountService _accountService;
 
-    public AccountController(ILogger<TransactionsController> logger)
+    public AccountController(ILogger<TransactionsController> logger, IAccountService accountService)
     {
         _logger = logger;
+        _accountService = accountService;
     }
     
     [HttpGet("get", Name = "GetAccount")]
-    public IEnumerable<AccountEntity> GetAccount()
+    public async Task<ActionResult<IEnumerable<AccountDto>>> GetAccount()
     {
         try
         {
-            return CONTEXT.Accounts.ToList();
+            var result = await _accountService.Get();
+            return Ok(result);
         }
         catch (Exception e)
         {
             _logger.LogError(e,$"Failed to fetch accounts");
-            return null;
+            return BadRequest();
         }
     }
     
     [HttpGet("getById/{id}", Name = "GetAccountById")]
-    public AccountEntity GetAccountById([FromRoute] string id)
+    public async Task<ActionResult<TransactionDto>> GetAccountById([FromRoute] string id)
     {
         try
         {
-            return CONTEXT.Accounts.First(a => a.Id == id);
+            var result = await _accountService.Get(id);
+            return Ok(result);
         }
         catch (Exception e)
         {
             _logger.LogError(e,$"Failed to fetch accounts");
-            return null;
+            return BadRequest();
         }
     }
     
     [HttpPost]
-    public void Add([FromBody] AccountEntity request)
+    public async Task<ActionResult> Add([FromBody] CreateAccountRequest request)
     {
-        var E = new AccountEntity
-        {
-            Id = request.Id,
-            Amount = request.Amount,
-            Type = request.Type,
-            Currency = request.Currency,
-            LastModified = request.LastModified
-        };
+        var entity = new AccountDto(
+            id: Guid.NewGuid().ToString(),
+            amount: request.Amount,
+            type: request.Type,
+            currency: request.Currency,
+            lastModified: DateTime.UtcNow);
         try
         {
-            CONTEXT.Accounts.Add(E);
-            _logger.LogInformation($"Account {E.Id} successfully created");
+            await _accountService.Add(entity);
+            _logger.LogInformation($"Account {entity.Id} successfully created");
+            return Ok();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Failed to create account with id={E.Id}");
+            _logger.LogError(ex, $"Failed to create account with id={entity.Id}");
+            return BadRequest();
         }
     }
     
     [HttpPut]
-    public void Update([FromBody] AccountEntity request)
+    public async Task<ActionResult> Update([FromBody] UpdateAccountRequest request)
     {
-        var sm = CONTEXT.Accounts.First(e => e.Id == request.Id);
-        
+        var entity = new AccountDto(
+            id: request.Id,
+            amount: request.Amount,
+            type: request.Type,
+            currency: request.Currency,
+            lastModified: DateTime.UtcNow);
+    
         try
         {
-            sm.Amount = request.Amount;
-            sm.Currency = request.Currency;
-            sm.Type = request.Type;
-            sm.LastModified = request.LastModified;
-            _logger.LogInformation($"Account {sm.Id} successfully updated");
+            await _accountService.Update(entity);
+            _logger.LogInformation($"Account {entity.Id} successfully updated");
+            return Ok();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Failed to update account with id={sm.Id}");
+            _logger.LogError(ex, $"Failed to update account with id={entity.Id}");
+            return BadRequest();
         }
     }
     
     [HttpDelete]
-    public void Remove(string id)
+    public async Task<ActionResult> Remove(string id)
     {
         try 
         {
-            var ds = CONTEXT.Accounts.First(e => e.Id == id);
-            if (ds != null)
-            {
-                CONTEXT.Accounts.Remove(ds);
-            }
+            await _accountService.Remove(id);
             _logger.LogInformation($"Account {id} successfully deleted");
+            return Ok();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, $"Failed to delete account with id={id}");
+            return BadRequest();
         }
     }
 }
