@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoffeeShopAPI.BusinessLogic\CoffeeShopAPI.BusinessLogic.csproj" />
-    <ProjectReference Include="..\CoffeeShopAPI.DataAccess\CoffeeShopAPI.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
