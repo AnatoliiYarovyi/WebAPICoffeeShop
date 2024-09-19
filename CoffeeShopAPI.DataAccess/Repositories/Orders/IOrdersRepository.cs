@@ -5,10 +5,10 @@ namespace CoffeeShopAPI.DataAccess.Repositories.Orders;
 
 public interface IOrdersRepository
 {
-    public Task<ReadOnlyCollection<CoffeeEntity>> Get();
-    public Task<CoffeeEntity?> Get(string id);
-    public Task<ReadOnlyCollection<CoffeeEntity>> Get(Func<CoffeeEntity, bool> predicate);
-    public Task Create(CoffeeEntity entity);
-    public Task Update(CoffeeEntity entity);
+    public Task<ReadOnlyCollection<OrderEntity>> Get();
+    public Task<OrderEntity?> Get(string id);
+    public Task<ReadOnlyCollection<OrderEntity>> Get(Func<OrderEntity, bool> predicate);
+    public Task Create(OrderEntity entity);
+    public Task Update(OrderEntity entity);
     public Task Delete(string id);
 }
