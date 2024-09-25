@@ -25,7 +25,7 @@ namespace CoffeeShopAPI
                 new OrderEntity
                 {
                     Id = Guid.NewGuid().ToString(),
-                    CoffeeId = "1",
+                    ProductId = "1",
                     CustomerId = "1",
                     OrderDate = DateTime.UtcNow
                  }

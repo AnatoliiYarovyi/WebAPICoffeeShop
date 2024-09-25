@@ -35,7 +35,7 @@ public class OrdersRepository : IOrdersRepository
         {
             if (e.Id == entity.Id)
             {
-                e.CoffeeId = entity.CoffeeId;
+                e.ProductId = entity.ProductId;
                 e.CustomerId = entity.CustomerId;
                 e.OrderDate = entity.OrderDate;
             }
