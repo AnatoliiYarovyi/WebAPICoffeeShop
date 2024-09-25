@@ -4,15 +4,15 @@ namespace CoffeeShopAPI
 {
     public class CoffeeShopContext
     {
-        public ICollection<CoffeeEntity> Coffee { get; }
+        public ICollection<ProductsEntity> Coffee { get; }
         public ICollection<OrderEntity> Orders { get; }
         public ICollection<CustomerEntity> Customers { get; }
 
         public CoffeeShopContext()
         {
-            Coffee = new List<CoffeeEntity>()
+            Coffee = new List<ProductsEntity>()
             {
-                new CoffeeEntity
+                new ProductsEntity
                 {
                     Id = "1",
                     Name = "Espresso",
@@ -27,7 +27,7 @@ namespace CoffeeShopAPI
                     Id = Guid.NewGuid().ToString(),
                     CoffeeId = "1",
                     CustomerId = "1",
-                    OrderDate = DateTime.Now
+                    OrderDate = DateTime.UtcNow
                  }
             };
 

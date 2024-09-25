@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using CoffeeShopAPI.DataAccess.Repositories.Coffee;
+using CoffeeShopAPI.DataAccess.Repositories.Products;
 using CoffeeShopAPI.DataAccess.Repositories.Customers;
 using CoffeeShopAPI.DataAccess.Repositories.Orders;
 
@@ -11,7 +11,7 @@ public static class DataInstaller
     {
         services
             .AddSingleton<CoffeeShopContext>()
-            .AddTransient<ICoffeeRepository, CoffeeRepository>()
+            .AddTransient<IProductsRepository, ProductsRepository>()
             .AddTransient<ICustomersRepository, CustomersRepository>()
             .AddTransient<IOrdersRepository, OrdersRepository>();
 

@@ -3,23 +3,23 @@ using CoffeeShopAPI.DataAccess.Entities;
 
 namespace CoffeeShopAPI.BusinessLogic.Dtos;
 
-public class CoffeeDto : IEquatable<CoffeeDto>
+public class ProductsDto : IEquatable<ProductsDto>
 {
-    public static readonly CoffeeDto Default
-        = new CoffeeDto(string.Empty, string.Empty, decimal.Zero);
+    public static readonly ProductsDto Default
+        = new ProductsDto(string.Empty, string.Empty, decimal.Zero);
 
     public string Id { get; }
     public string Name { get; }
     public decimal Price { get; }
 
-    public CoffeeDto(string id, string name, decimal price)
+    public ProductsDto(string id, string name, decimal price)
     {
         Id = id;
         Name = name;
         Price = price;
     }
 
-    public bool Equals(CoffeeDto? other)
+    public bool Equals(ProductsDto? other)
     {
         if (other == null)
             return false;

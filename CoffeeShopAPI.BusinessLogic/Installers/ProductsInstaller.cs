@@ -4,11 +4,11 @@ using CoffeeShopAPI.BusinessLogic.Services;
 
 namespace CoffeeShopAPI.BusinessLogic.Installers;
 
-public static class CoffeeInstaller
+public static class ProductsInstaller
 {
-    public static IServiceCollection AddCoffee(this IServiceCollection services)
+    public static IServiceCollection AddProducts(this IServiceCollection services)
     {
-        services.AddScoped<ICoffeeService, CoffeeService>();
+        services.AddScoped<IProductsService, ProductsService>();
         return services;
     }
 

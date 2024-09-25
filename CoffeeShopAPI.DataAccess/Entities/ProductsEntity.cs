@@ -1,6 +1,6 @@
 namespace CoffeeShopAPI.DataAccess.Entities;
 
-public class CoffeeEntity
+public class ProductsEntity
 {
 	public string Id { get; init; }
 	public string Name { get; set; }

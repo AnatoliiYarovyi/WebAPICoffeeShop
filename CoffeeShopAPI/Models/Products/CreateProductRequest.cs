@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CoffeeShopAPI.DataAccess.Entities;
 
-namespace CoffeeShopAPI.Models.Coffee;
+namespace CoffeeShopAPI.Models.Products;
 
-public class UpdateCoffeeRequest
+public class CreateProductRequest
 {
     [Required]
-    public string Id { get; init; }
+    public string Name { get; init; }
     [Required]
     public decimal Price { get; init; }
-    public string Name { get; init; }
+    
 }
