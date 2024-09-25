@@ -13,25 +13,25 @@ public class ProductsRepository : IProductsRepository
     }
 
     public Task<ReadOnlyCollection<ProductsEntity>> Get() =>
-        Task.FromResult(_context.Coffee.ToList().AsReadOnly());
+        Task.FromResult(_context.Products.ToList().AsReadOnly());
 
     public Task<ProductsEntity?> Get(string id) =>
-        Task.FromResult(_context.Coffee.FirstOrDefault(e => e.Id == id));
+        Task.FromResult(_context.Products.FirstOrDefault(e => e.Id == id));
 
     public Task<ReadOnlyCollection<ProductsEntity>> Get(Func<ProductsEntity, bool> predicate)
     {
-        return Task.FromResult(_context.Coffee.Where(predicate).ToList().AsReadOnly());
+        return Task.FromResult(_context.Products.Where(predicate).ToList().AsReadOnly());
     }
 
     public Task Create(ProductsEntity entity)
     {
-        _context.Coffee.Add(entity);
+        _context.Products.Add(entity);
         return Task.CompletedTask;
     }
 
     public Task Update(ProductsEntity entity)
     {
-        foreach (var e in _context.Coffee)
+        foreach (var e in _context.Products)
         {
             if (e.Id == entity.Id)
             {
@@ -44,10 +44,10 @@ public class ProductsRepository : IProductsRepository
 
     public Task Delete(string id)
     {
-        var entity = _context.Coffee.FirstOrDefault(e => e.Id == id);
+        var entity = _context.Products.FirstOrDefault(e => e.Id == id);
         if (entity != null)
         {
-            _context.Coffee.Remove(entity);
+            _context.Products.Remove(entity);
         }
         return Task.CompletedTask;
     }

@@ -4,13 +4,13 @@ namespace CoffeeShopAPI
 {
     public class CoffeeShopContext
     {
-        public ICollection<ProductsEntity> Coffee { get; }
+        public ICollection<ProductsEntity> Products { get; }
         public ICollection<OrderEntity> Orders { get; }
         public ICollection<CustomerEntity> Customers { get; }
 
         public CoffeeShopContext()
         {
-            Coffee = new List<ProductsEntity>()
+            Products = new List<ProductsEntity>()
             {
                 new ProductsEntity
                 {
