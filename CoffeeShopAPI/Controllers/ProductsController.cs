@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using CoffeeShopAPI.BusinessLogic.Contracts;
+using CoffeeShopAPI.BusinessLogic.Builder;
 using CoffeeShopAPI.BusinessLogic.Dtos;
 using CoffeeShopAPI.Models.Products;
 
@@ -51,10 +52,12 @@ public class ProductsController : ControllerBase
     [HttpPost(Name = "AddNewProduct")]
     public async Task<ActionResult> Add([FromBody] CreateProductRequest request)
     {
-        var entity = new ProductsDto(
-            id: Guid.NewGuid().ToString(),
-            name: request.Name,
-            price: request.Price);
+        var productBuilder = new ProductBuilder()
+        .SetName(request.Name)
+        .SetPrice(request.Price);
+
+        var entity = productBuilder.Build();
+
         try
         {
             await _productService.Add(entity);
