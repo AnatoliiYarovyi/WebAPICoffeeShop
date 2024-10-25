@@ -7,7 +7,7 @@ using CoffeeShopAPI.Models.Products;
 namespace CoffeeShopAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
     private readonly ILogger<ProductsController> _logger;

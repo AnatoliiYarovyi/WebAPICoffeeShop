@@ -37,13 +37,17 @@ namespace CoffeeShopAPI
                 {
                     Id = "1",
                     Name = "John Doe",
-                    Email = "john.doe@example.com"
+                    Email = "john.doe@example.com",
+                    Grade = "Regular",
+                    Discount = 0
                 },
                 new CustomerEntity
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = "John Doe",
-                    Email = "john.doe@example.com"
+                    Name = "Jane Doe",
+                    Email = "jane.doe@example.com",
+                    Grade = "Premium",
+                    Discount = 10
                 }
             };
         }

@@ -1,54 +1,57 @@
 using System.Collections.ObjectModel;
 using CoffeeShopAPI.DataAccess.Entities;
 
-namespace CoffeeShopAPI.DataAccess.Repositories.Customers;
-
-public class CustomersRepository : ICustomersRepository
+namespace CoffeeShopAPI.DataAccess.Repositories.Customers
 {
-    private readonly CoffeeShopContext _context;
-
-    public CustomersRepository(CoffeeShopContext context)
+    public class CustomersRepository : ICustomersRepository
     {
-        _context = context;
-    }
+        private readonly CoffeeShopContext _context;
 
-    public Task<ReadOnlyCollection<CustomerEntity>> Get() =>
-        Task.FromResult(_context.Customers.ToList().AsReadOnly());
-
-    public Task<CustomerEntity?> Get(string id) =>
-        Task.FromResult(_context.Customers.FirstOrDefault(e => e.Id == id));
-
-    public Task<ReadOnlyCollection<CustomerEntity>> Get(Func<CustomerEntity, bool> predicate)
-    {
-        return Task.FromResult(_context.Customers.Where(predicate).ToList().AsReadOnly());
-    }
-
-    public Task Create(CustomerEntity entity)
-    {
-        _context.Customers.Add(entity);
-        return Task.CompletedTask;
-    }
-
-    public Task Update(CustomerEntity entity)
-    {
-        foreach (var e in _context.Customers)
+        public CustomersRepository(CoffeeShopContext context)
         {
-            if (e.Id == entity.Id)
+            _context = context;
+        }
+
+        public Task<ReadOnlyCollection<CustomerEntity>> Get() =>
+            Task.FromResult(_context.Customers.ToList().AsReadOnly());
+
+        public Task<CustomerEntity?> Get(string id) =>
+            Task.FromResult(_context.Customers.FirstOrDefault(e => e.Id == id));
+
+        public Task<ReadOnlyCollection<CustomerEntity>> Get(Func<CustomerEntity, bool> predicate)
+        {
+            return Task.FromResult(_context.Customers.Where(predicate).ToList().AsReadOnly());
+        }
+
+        public Task Create(CustomerEntity entity)
+        {
+            _context.Customers.Add(entity);
+            return Task.CompletedTask;
+        }
+
+        public Task Update(CustomerEntity entity)
+        {
+            foreach (var e in _context.Customers)
             {
-                e.Name = entity.Name;
-                e.Email = entity.Email;
+                if (e.Id == entity.Id)
+                {
+                    e.Name = entity.Name;
+                    e.Email = entity.Email;
+                    e.Grade = entity.Grade;
+                    e.Discount = entity.Discount;
+                }
             }
+            return Task.CompletedTask;
         }
-        return Task.CompletedTask;
-    }
 
-    public Task Delete(string id)
-    {
-        var entity = _context.Customers.FirstOrDefault(e => e.Id == id);
-        if (entity != null)
+        public Task Delete(string id)
         {
-            _context.Customers.Remove(entity);
+            var entity = _context.Customers.FirstOrDefault(e => e.Id == id);
+            if (entity != null)
+            {
+                _context.Customers.Remove(entity);
+            }
+            return Task.CompletedTask;
         }
-        return Task.CompletedTask;
     }
 }
