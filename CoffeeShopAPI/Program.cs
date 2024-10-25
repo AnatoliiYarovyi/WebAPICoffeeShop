@@ -5,9 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services
     .AddDataContext()
-    .AddProducts();
-    //.AddTransactions()
-    //.AddAccounts();
+    .AddProducts()
+    .AddCustomers();
+//.AddTransactions()
+//.AddAccounts();
 
 
 builder.Services.AddControllers();
