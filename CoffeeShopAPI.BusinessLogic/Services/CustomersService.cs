@@ -10,12 +10,14 @@ namespace CoffeeShopAPI.BusinessLogic.Services
     public class CustomersService : ICustomersService
     {
         private readonly ICustomersRepository _customersRepository;
+        private readonly ICustomersRepositoryAdapter _customersRepositoryAdapter;
         private readonly ICustomerFactory _regularCustomerFactory;
         private readonly ICustomerFactory _premiumCustomerFactory;
 
-        public CustomersService(ICustomersRepository customersRepository, ICustomerFactory regularCustomerFactory, ICustomerFactory premiumCustomerFactory)
+        public CustomersService(ICustomersRepository customersRepository, ICustomersRepositoryAdapter customersRepositoryAdapter, ICustomerFactory regularCustomerFactory, ICustomerFactory premiumCustomerFactory)
         {
             _customersRepository = customersRepository;
+            _customersRepositoryAdapter = customersRepositoryAdapter;
             _regularCustomerFactory = regularCustomerFactory;
             _premiumCustomerFactory = premiumCustomerFactory;
         }
@@ -23,6 +25,21 @@ namespace CoffeeShopAPI.BusinessLogic.Services
         public async Task<IReadOnlyList<CustomerDto>> Get()
         {
             var coffee = await _customersRepository.Get();
+            if (coffee == null)
+                return new List<CustomerDto>();
+
+            return coffee.Select(static e => new CustomerDto(
+                id: e.Id,
+                name: e.Name,
+                email: e.Email,
+                grade: e.Grade,
+                discount: e.Discount
+                )).ToList().AsReadOnly();
+        }
+
+        public async Task<IReadOnlyList<CustomerDto>> GetByAdapter()
+        {
+            var coffee = await _customersRepositoryAdapter.GetCustomers();
             if (coffee == null)
                 return new List<CustomerDto>();
 

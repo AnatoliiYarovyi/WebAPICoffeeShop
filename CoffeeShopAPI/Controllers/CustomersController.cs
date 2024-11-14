@@ -33,6 +33,21 @@ namespace CoffeeShopAPI.Controllers
             }
         }
 
+        [HttpGet("get-by-adapter", Name = "GetCustomersByAdapter")]
+        public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCustomersByAdapter()
+        {
+            try
+            {
+                var result = await _customersService.GetByAdapter();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Failed to fetch Customers");
+                return BadRequest();
+            }
+        }
+
         [HttpPost("create")]
         public async Task<ActionResult<CustomerDto>> CreateCustomer([FromBody] CreateCustomerRequest request)
         {
