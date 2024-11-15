@@ -63,20 +63,16 @@ namespace CoffeeShopAPI.BusinessLogic.Services
             CustomerDto customer;
             if (type == "Regular")
             {
-                Console.WriteLine($"_regularCustomerFactory: {type}");
                 customer = _regularCustomerFactory.CreateCustomer(name, email);
             }
             else if (type == "Premium")
             {
-               Console.WriteLine($"_premiumCustomerFactory: {type}");
                customer = _premiumCustomerFactory.CreateCustomer(name, email);
             }
             else
             {
                 throw new ArgumentException("Invalid customer type");
             }
-
-            Console.WriteLine($"customer-1: {JsonSerializer.Serialize(customer)}");
 
             var customerEntity = new CustomerEntity
             {

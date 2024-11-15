@@ -7,10 +7,7 @@ namespace CoffeeShopAPI.BusinessLogic.CustomerFactoryMethod
     {
         public CustomerDto CreateCustomer(string name, string email)
         {
-            var asd = new CustomerDto(Guid.NewGuid().ToString(), name, email, "Premium", 10);
-            Console.WriteLine($"asd: {JsonSerializer.Serialize(asd)}");
-
-            return asd;
+            return new CustomerDto(Guid.NewGuid().ToString(), name, email, "Premium", 10);
         }
     }
 }
