@@ -13,6 +13,7 @@ public static class DataInstaller
             .AddSingleton<CoffeeShopContext>()
             .AddTransient<IProductsRepository, ProductsRepository>()
             .AddTransient<ICustomersRepository, CustomersRepository>()
+            .AddTransient<ICustomersRepositoryAdapter, CustomersRepositoryAdapter>()
             .AddTransient<IOrdersRepository, OrdersRepository>();
 
         return services;

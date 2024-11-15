@@ -2,6 +2,8 @@
 using CoffeeShopAPI.BusinessLogic.CustomerFactoryMethod;
 using CoffeeShopAPI.BusinessLogic.Contracts;
 using CoffeeShopAPI.BusinessLogic.Services;
+using CoffeeShopAPI.BusinessLogic.Decorators;
+using Scrutor;
 
 namespace CoffeeShopAPI.BusinessLogic.Installers
 {
@@ -11,6 +13,7 @@ namespace CoffeeShopAPI.BusinessLogic.Installers
         {
             services
                 .AddScoped<ICustomersService, CustomersService>()
+                .Decorate<ICustomersService, LoggingCustomerServiceDecorator>()
                 .AddScoped<ICustomerFactory, RegularCustomerFactory>()
                 .AddScoped<ICustomerFactory, PremiumCustomerFactory>();
 
