@@ -4,6 +4,7 @@ using CoffeeShopAPI.BusinessLogic.Dtos;
 using CoffeeShopAPI.DataAccess.Entities;
 using CoffeeShopAPI.DataAccess.Repositories.Customers;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace CoffeeShopAPI.BusinessLogic.Services
 {
@@ -11,10 +12,15 @@ namespace CoffeeShopAPI.BusinessLogic.Services
     {
         private readonly ICustomersRepository _customersRepository;
         private readonly ICustomersRepositoryAdapter _customersRepositoryAdapter;
-        private readonly ICustomerFactory _regularCustomerFactory;
-        private readonly ICustomerFactory _premiumCustomerFactory;
+        private readonly IRegularCustomerFactory _regularCustomerFactory;
+        private readonly IPremiumCustomerFactory _premiumCustomerFactory;
 
-        public CustomersService(ICustomersRepository customersRepository, ICustomersRepositoryAdapter customersRepositoryAdapter, ICustomerFactory regularCustomerFactory, ICustomerFactory premiumCustomerFactory)
+        public CustomersService(
+            ICustomersRepository customersRepository, 
+            ICustomersRepositoryAdapter customersRepositoryAdapter, 
+            IRegularCustomerFactory regularCustomerFactory, 
+            IPremiumCustomerFactory premiumCustomerFactory
+            )
         {
             _customersRepository = customersRepository;
             _customersRepositoryAdapter = customersRepositoryAdapter;
@@ -57,16 +63,20 @@ namespace CoffeeShopAPI.BusinessLogic.Services
             CustomerDto customer;
             if (type == "Regular")
             {
+                Console.WriteLine($"_regularCustomerFactory: {type}");
                 customer = _regularCustomerFactory.CreateCustomer(name, email);
             }
             else if (type == "Premium")
             {
-                customer = _premiumCustomerFactory.CreateCustomer(name, email);
+               Console.WriteLine($"_premiumCustomerFactory: {type}");
+               customer = _premiumCustomerFactory.CreateCustomer(name, email);
             }
             else
             {
                 throw new ArgumentException("Invalid customer type");
             }
+
+            Console.WriteLine($"customer-1: {JsonSerializer.Serialize(customer)}");
 
             var customerEntity = new CustomerEntity
             {
@@ -76,6 +86,8 @@ namespace CoffeeShopAPI.BusinessLogic.Services
                 Grade = customer.Grade,
                 Discount = customer.Discount
             };
+
+            Console.WriteLine($"customerEntity: {JsonSerializer.Serialize(customerEntity)}");
 
             await _customersRepository.Create(customerEntity);
             return customer;

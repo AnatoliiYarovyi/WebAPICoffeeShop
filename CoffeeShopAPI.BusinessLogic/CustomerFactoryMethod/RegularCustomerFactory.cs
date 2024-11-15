@@ -1,12 +1,16 @@
 ﻿using CoffeeShopAPI.BusinessLogic.Dtos;
+using System.Text.Json;
 
 namespace CoffeeShopAPI.BusinessLogic.CustomerFactoryMethod
 {
-    public class RegularCustomerFactory : ICustomerFactory
+    public class RegularCustomerFactory : IRegularCustomerFactory
     {
         public CustomerDto CreateCustomer(string name, string email)
         {
-            return new CustomerDto(Guid.NewGuid().ToString(), name, email, "Regular", 0);
+            var qwe = new CustomerDto(Guid.NewGuid().ToString(), name, email, "Regular", 3);
+            Console.WriteLine($"qwe: {JsonSerializer.Serialize(qwe)}");
+
+            return qwe;
         }
     }
 }
